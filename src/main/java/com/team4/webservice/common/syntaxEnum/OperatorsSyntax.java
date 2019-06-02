@@ -1,7 +1,5 @@
 package com.team4.webservice.common.syntaxEnum;
 
-import com.sun.tools.corba.se.idl.constExpr.Equal;
-
 public enum OperatorsSyntax {
     EQUAL("="),
     NOT("NOT"),
@@ -20,8 +18,7 @@ public enum OperatorsSyntax {
     GREATER_THAN_EQUAL(">="),
     NOT_EQUAL_TYPE1("!="),
     NOT_EQUAL_TYPE2("^="),
-    NOT_EQUAL_TYPE3("<>"),
-    ;
+    NOT_EQUAL_TYPE3("<>");
 
     String character;
 
