@@ -5,13 +5,15 @@
     <title>Insert title here</title>
 </head>
 <body>
-<form action="http://localhost:8100/api/ansi/oracle" method="get">
-    <textarea rows="4" cols="50">
-    select * from
-    </textarea>
+<form action="/api/ansi/oracle" method="get">
+<!--    <textarea name="sql" id="sql" rows="4" cols="50">-->
+<!--    select * from-->
+<!--    </textarea>-->
+    
+    <input type="text" value="select * from">
     <input type="submit" value="제출">
 </form>
-<button id="submit">전송</button>
+
 </body>
 
 </html>
