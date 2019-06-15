@@ -10,4 +10,9 @@ public class OracleToAnsi implements Oracle{
     public void splitStr() {
 
     }
+
+    @Override
+    public void removeSpaces() {
+
+    }
 }
