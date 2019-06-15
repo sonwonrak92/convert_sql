@@ -29,6 +29,11 @@ public class AnsiToMssql implements Ansi{
 
     }
 
+    @Override
+    public void removeSpaces() {
+
+    }
+
     //Mssql에 만 쓰이는 메서만 쓰는 메서드 생성
 
 }
