@@ -8,4 +8,6 @@ public interface CommonInterface {
     //(2) 문자열 자르기
     void splitStr();
 
+    //(3) 문자열 공백 없애기
+    void  removeSpaces();
 }
