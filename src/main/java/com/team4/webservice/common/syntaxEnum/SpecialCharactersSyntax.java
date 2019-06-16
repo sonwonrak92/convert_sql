@@ -2,11 +2,16 @@ package com.team4.webservice.common.syntaxEnum;
 
 public enum SpecialCharactersSyntax {
     PERCENT_SIGN("%"),
-    UNDERBAR("_");
+    UNDERBAR("_"),
+    COMMA(",");
 
-    String character;
+    private String character;
 
     SpecialCharactersSyntax(String character) {
         this.character = character;
+    }
+
+    public String getSyntex() {
+        return character;
     }
 }
