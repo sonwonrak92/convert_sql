@@ -1,6 +1,7 @@
 package com.team4.webservice.service.common;
 
 import com.team4.webservice.common.syntaxEnum.CommonSyntax;
+import com.team4.webservice.common.syntaxEnum.SpecialCharactersSyntax;
 
 import java.util.Stack;
 
@@ -36,7 +37,7 @@ public interface CommonInterface {
         Stack<String> syntax = new Stack<>();
         boolean hasSelect = false;
         boolean hasFrom = false;
-        for (String text : parseSql) {
+        for (String text: parseSql) {
             // Find select & from
             if (CommonSyntax.SELECT.getSyntex().equals(text)) {
                 hasSelect = true;
@@ -44,14 +45,48 @@ public interface CommonInterface {
                 if (!hasFrom) {
                     // TODO throw 문법이상
                 }
-            } else if (CommonSyntax.FROM.getSyntex().equals(text)) {
+            }
+            else if (CommonSyntax.FROM.getSyntex().equals(text)) {
                 hasFrom = true;
                 // select가 나오기 전에 from이 먼저 나옴
                 if (!hasSelect) {
                     // TODO throw 문법이상!!
                 }
             }
+
+            // hasSelect = true, hasFrom = false
+            else if (hasSelect && !hasFrom) {
+                String lastText = syntax.peek();
+                System.out.println("last text :: " + lastText);
+
+                // 이전 문자가 SELECT 거나 , 면 컬럼으로 인식
+                if (lastText.equals(CommonSyntax.SELECT.getSyntex())
+                        || lastText.equals(SpecialCharactersSyntax.COMMA.getSyntex())) {
+
+                }
+                //
+//                else if (lastText.equals(CommonSyntax.AS.getSyntex())
+//                        || ) {
+//
+//                }
+
+
+                if (!CommonSyntax.AS.getSyntex().equals(text)) {
+                    text = "AS " + text;
+                }
+            }
+
+
+
+            syntax.push(text);
         }
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++");
+        for (String str: syntax
+        ) {
+            System.out.println(str);
+        }
+
+
         return "";
     }
 }
