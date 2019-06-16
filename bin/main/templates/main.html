@@ -1,10 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Convert SQL Program - by 4team</title>
+    
+<!-- 합쳐지고 최소화된 최신 CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<!-- 부가적인 테마 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+   <style type="text/css">
+       .text-unit{
+           float : left;
+           height : 300px;
+       }
+       
+       #convertBtn{
+       	vertical-align : middle;
+       }
+   </style>
 </head>
+
 <body>
-소고기먹자소고기!
-</body>
+    <h1>Convert SQL program</h1>
+    <div class ="textSection">
+        <div class="text-unit">
+            <textarea name="" id="targetSection" cols="50" rows="30"></textarea>
+        </div>
+        <div class="text-unit">
+            <button type="button" class="btn btn-success" id="convertBtn">Convert</button>
+       </div>
+        <div class="text-unit">
+            <textarea name="" id="resultSection" cols="50" rows="30"></textarea>
+        </div>
+  	</div>
+  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+ </body>
+
 </html>
