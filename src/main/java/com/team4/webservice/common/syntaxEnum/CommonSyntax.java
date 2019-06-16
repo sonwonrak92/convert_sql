@@ -20,16 +20,20 @@ public enum CommonSyntax {
 	   BETWEEN("BETWEEN"),
 	   AND("AND"),
 	   OR("OR"),
-	   NOT("NOT");
+	   NOT("NOT"),
+	   AS("AS");
+
 	
 
 	private String str;
 	
-	private CommonSyntax(String str) {
+	CommonSyntax(String str) {
 		this.str = str;
 	}
 	
-	
+	public String getSyntex() {
+		return str;
+	}
 	
 	   
 }

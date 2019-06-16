@@ -1,6 +1,8 @@
 package com.team4.webservice.service.ansi;
 
 import com.team4.webservice.service.common.CommonInterface;
+import org.springframework.context.annotation.Bean;
+
 
 public interface Ansi extends CommonInterface {
 //    SELECT *
