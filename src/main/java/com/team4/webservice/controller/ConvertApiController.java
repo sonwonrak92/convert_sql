@@ -1,15 +1,12 @@
 package com.team4.webservice.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import java.util.Map;
 
-@Controller
-@RequestMapping("/api")
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
 public class ConvertApiController {
 
     /** ANSI SQL convert to Oracle SQL
@@ -17,9 +14,18 @@ public class ConvertApiController {
      * @param param
      * @return T^T
      * */
-    @GetMapping("/ansi/oracle")
-    public Map<String, Object> ansiToOracle(String param) {
-        System.out.println(param);
+    @PostMapping("/ansi/oracle")
+    public Map<String, String> ansiToOracle(@RequestBody Map<String, String> param) {
+        
+        
+       String str = param.get("targetText");
+       String[] strArr = str.split("\n");
+       
+       for(String a : strArr) {
+    	   System.out.println(a);
+    	   System.out.println("!!");
+    	   
+       }
         return null;    // TODO 임시
     }
 
