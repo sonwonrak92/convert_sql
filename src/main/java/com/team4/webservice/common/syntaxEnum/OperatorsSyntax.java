@@ -20,7 +20,7 @@ public enum OperatorsSyntax {
     NOT_EQUAL_TYPE2("^="),
     NOT_EQUAL_TYPE3("<>");
 
-    String character;
+    public String character;
 
     OperatorsSyntax(String character) {
         this.character = character;
