@@ -1,5 +1,7 @@
 package com.team4.webservice.common;
 
+import com.team4.webservice.common.syntaxEnum.OperatorsSyntax;
+
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -80,4 +82,21 @@ public class QueryConvertUtil {
 
 	// ""없는 AS의 경우 일괄 ""적용
 
+	//채유진 2019.06.23
+	public static boolean valCheck (String str) {
+		boolean chk = true;
+
+		if(str.contains("SELECT ") && str.contains(" FROM ")) {
+			for(OperatorsSyntax op : OperatorsSyntax.values()) {
+				String chr = op.character;
+				if(str.contains(chr)) {
+					if(str.contains(" WHERE ") || str.contains(" ON ")) {
+						return chk;
+					}else chk=false;
+				};
+			}
+		}else chk=false;
+
+		return chk;
+	}
 }

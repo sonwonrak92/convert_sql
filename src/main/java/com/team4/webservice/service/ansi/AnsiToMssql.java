@@ -29,7 +29,7 @@ public class AnsiToMssql implements Ansi{
 
     }
 
-    @Override
+    //@Override
     public void removeSpaces() {
 
     }
