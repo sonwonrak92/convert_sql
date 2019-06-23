@@ -74,6 +74,7 @@ public class QueryConvertUtil {
 	  }
 	  
 	  for(String str : newQuerySplitArry) {
+		  System.out.println(str);
 		  sb.append(str);
 	  }
 	
