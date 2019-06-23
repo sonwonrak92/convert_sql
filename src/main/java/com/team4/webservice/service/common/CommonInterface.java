@@ -4,6 +4,8 @@ import com.team4.webservice.common.syntaxEnum.CommonSyntax;
 import com.team4.webservice.common.syntaxEnum.SpecialCharactersSyntax;
 
 import java.util.Stack;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public interface CommonInterface {
 
@@ -21,72 +23,62 @@ public interface CommonInterface {
      */
 
     default String makeAlias(String sql) {
-        // TODO select, from 키워드가 포함되어있는지 확인
-        // 셀렉트프로찾기(sql) == false ? throw exception;
+//        sql = "A.TITLE   AS    \"   title\", A.name \"NAME \", a.age AGE, a.addr";
+        // INPUT 형태 : A.TITLE   AS    "   title", A.name "NAME ", a.age AGE
+        // OUTPUT 형태 : A.TITLE AS " title", A.NAME AS "NAME ", A.AGE AS "AGE"
+        String[] parseSql = sql.split("(\\s|)+,(\\s)+");
 
-        sql = "SELECT A.A AS text " +
-                ", A.B B" +
-                "       FROM TABLE_A A INNER JOIN TABLE_B AS B ON A.A = B.B;";
-        // INPUT 형태 : SELECT A.A AS text FROM TABLE_A A INNER JOIN TABLE_B AS B ON A.A = B.B;
-        // OUTPUT 형태 : SELECT A.A AS "text" FROM TABLE_A AS "A" INNER JOIN TABLE_B AS "B" ON A.A = B.B;
-        String[] parseSql = sql.split("\\s+");
-        for (String text : parseSql) {
-            System.out.println(text);
-        }
+        Pattern regex = null;    // 정규식 변수
+        Matcher matcher = null;
+        for (int i = 0; i < parseSql.length; i++) {
+            String text = parseSql[i];
+            String alias = "";
 
-        Stack<String> syntax = new Stack<>();
-        boolean hasSelect = false;
-        boolean hasFrom = false;
-        for (String text: parseSql) {
-            // Find select & from
-            if (CommonSyntax.SELECT.getSyntex().equals(text)) {
-                hasSelect = true;
-                // select가 나오기 전에 from이 먼저 나옴
-                if (!hasFrom) {
-                    // TODO throw 문법이상
+            /******************
+            * alias 분리하기
+            *******************/
+            // 쌍따옴표로 감싸진 Alias 분리
+            regex = Pattern.compile("(?<=\").+(?=\")+");
+            matcher = regex.matcher(text);
+//            System.out.println("Before  :: "  + text);
+            while (matcher.find()) {
+                alias = matcher.group(0);
+
+            }
+            // 쌍따옴표안에 없는 Alias의 경우 따로 분리
+            if (alias.equals("")) {
+                regex = Pattern.compile("(?<=\\s)\\w+$");
+                matcher = regex.matcher(text);
+                while (matcher.find()) {
+                    alias = matcher.group(0);
                 }
             }
-            else if (CommonSyntax.FROM.getSyntex().equals(text)) {
-                hasFrom = true;
-                // select가 나오기 전에 from이 먼저 나옴
-                if (!hasSelect) {
-                    // TODO throw 문법이상!!
-                }
+//            System.out.println("Alias   :: " + alias);
+            /*********************
+             * 대문자 치환 & 공백 제거
+             *********************/
+            text = text.toUpperCase();                            // 대문자 치환
+            text = text.replaceAll("\\s+", " "); // 공백 제거
+            /*********************
+             * AS 붙이기
+             *********************/
+            regex = Pattern.compile("^(\\w|\\.)+(?=\\s)");
+            matcher = regex.matcher(text);
+            while (matcher.find()) {
+//                System.out.println("column  :: " + matcher.group(0));
+                text = matcher.group(0) + " " + CommonSyntax.AS.getSyntex() + " ";
             }
-
-            // hasSelect = true, hasFrom = false
-            else if (hasSelect && !hasFrom) {
-                String lastText = syntax.peek();
-                System.out.println("last text :: " + lastText);
-
-                // 이전 문자가 SELECT 거나 , 면 컬럼으로 인식
-                if (lastText.equals(CommonSyntax.SELECT.getSyntex())
-                        || lastText.equals(SpecialCharactersSyntax.COMMA.getSyntex())) {
-
-                }
-                //
-//                else if (lastText.equals(CommonSyntax.AS.getSyntex())
-//                        || ) {
-//
-//                }
-
-
-                if (!CommonSyntax.AS.getSyntex().equals(text)) {
-                    text = "AS " + text;
-                }
+            // Alias가 있으면 붙여줌(애초에 Alias가 없으면 생략)
+            if (!alias.equals("")) {
+                text += "\"" + alias + "\"";
             }
-
-
-
-            syntax.push(text);
-        }
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++++");
-        for (String str: syntax
-        ) {
-            System.out.println(str);
+            parseSql[i] = text;
+//            System.out.println("After   ::"  + parseSql[i]);
         }
 
-
-        return "";
+//        for (int i = 0; i < parseSql.length; i++) {
+//            System.out.println(parseSql[i]);
+//        }
+        return String.join(", ", parseSql);
     }
 }

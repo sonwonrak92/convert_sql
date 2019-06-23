@@ -24,6 +24,10 @@ public class ConvertSqlApplicationTests {
 
 	@Test
 	public void alias(){
-		ansi.makeAlias("");
+	    String inSql = "A.TITLE   AS    \"   title\", A.name \"NAME \", a.age AGE, a.addr";
+        System.out.println("inSql :: " + inSql);
+
+        String result = ansi.makeAlias(inSql);
+        System.out.println("result :: " + result);
 	}
 }
