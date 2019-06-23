@@ -43,7 +43,7 @@ public class AnsiToOracle implements Ansi{
 
     }
 
-    @Override
+    //@Override
     public void removeSpaces() {
         //1
         String str = "";
