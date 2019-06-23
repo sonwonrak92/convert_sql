@@ -1,8 +1,12 @@
 package com.team4.webservice.service.common;
 
 import com.team4.webservice.common.syntaxEnum.CommonSyntax;
+import com.team4.webservice.common.syntaxEnum.OperatorsSyntax;
 import com.team4.webservice.common.syntaxEnum.SpecialCharactersSyntax;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,7 +20,49 @@ public interface CommonInterface {
     void splitStr();
 
     //(3) 문자열 공백 없애기
-    void removeSpaces();
+
+    /**
+     * enum에 포함된 문자가 들어올때 제대로된 공백을 붙이는 메소드
+     */
+    static ArrayList<String> arr = new ArrayList<>(); //다시 담을 arraylist
+    default  String removeSpaces(HashMap<String, ArrayList<String>> arrMap){
+        //innerJoin에 해당하는 키값 받기
+        Set key = arrMap.keySet();
+        ArrayList<String> valueName = null;
+        valueName = arrMap.get("INNERJOIN");
+
+        CompareToOperation(valueName);
+
+        return null;
+    }
+
+    default void CompareToOperation(ArrayList<String> str){
+        for(int i=0;i<str.size();i++) {
+            if(CompareToOperationDetail(str.get(i)) == true) {
+                plusSpace(str.get(i));
+            }else {
+                plusSpace(str.get(i));
+            }
+        }
+    }
+    //enum에 있는 문자와 받아온 arraylist의 값 비교
+    static boolean CompareToOperationDetail(String str){
+        //System.out.println(str);
+        for(OperatorsSyntax op : OperatorsSyntax.values()) {
+            String chr = op.character;
+
+            if(chr.equals(str)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    //공백을 붙여서 저장
+    static void plusSpace(String str) {
+        arr.add(str);
+        arr.add("\n");
+    }
+
 
     /**
      * alias가 들어올 때 표준된 형태로 만들어주는 메소드

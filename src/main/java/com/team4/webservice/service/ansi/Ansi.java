@@ -113,6 +113,12 @@ public interface Ansi extends CommonInterface {
         arrMap.put("FROM", fromArr);
         arrMap.put("INNERJOIN", joinArr);
         //TODO enum 추가!!
+        System.out.println("1");
+        System.out.println(selectArr);
+        System.out.println("2");
+        System.out.println(fromArr);
+        System.out.println("3");
+        System.out.println(joinArr);
 
         return arrMap;
 
