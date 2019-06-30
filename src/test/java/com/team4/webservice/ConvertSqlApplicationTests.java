@@ -47,10 +47,10 @@ public class ConvertSqlApplicationTests {
 		ArrayList<ArrayList<String>> result = ansi.parseStrToArr(inSql);
 		System.out.println("result :: " + result);
 
-		inSql = "SELECT * FROM TEST_A AS \"A\" LEFT OUTER JOIN TEST_B AS \"B\" ON A.ID = B.ID INNER JOIN TEST_C AS \"C\" ON B.ID = C.ID;";
-		System.out.println("inSql :: " + inSql);
-		result = ansi.parseStrToArr(inSql);
-		System.out.println("result :: " + result);
+//		inSql = "SELECT * FROM TEST_A AS \"A\" LEFT OUTER JOIN TEST_B AS \"B\" ON A.ID = B.ID INNER JOIN TEST_C AS \"C\" ON B.ID = C.ID;";
+//		System.out.println("inSql :: " + inSql);
+//		result = ansi.parseStrToArr(inSql);
+//		System.out.println("result :: " + result);
 	}
 
 }
