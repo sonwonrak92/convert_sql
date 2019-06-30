@@ -51,6 +51,7 @@ public class AnsiToOracle implements Ansi{
         ArrayList<String> where = new ArrayList<>();
 
         boolean where_yn = false; // where가 있을시 true로 전환
+        int attachPlus_yn = 0;
 
         for(int i=0;i < list.size();i++) {
             ArrayList<String> inList = list.get(i);
@@ -63,12 +64,42 @@ public class AnsiToOracle implements Ansi{
 
             for(int j=0;j<inList.size();j++) {
                 // inner join outer join은 , 가 들어와서 처리됨으로 , 가 있는지 확인
-                if(inList.get(0).equals(",")) {
-                    innerOuter.add(inList.get(j));
-                }
+//				if(inList.get(0).equals("INNER") || inList.get(0).equals("LEFT") || inList.get(0).equals("RIGHT")) {
+//					innerOuter.add(inList.get(j));
+//				}
+//				//LEFT 일때
+//				if(inList.get(0).equals("LEFT")) {
+//
+//					list.get(i+1).add(2,"(+)");
+//					innerOuter.add(inList.get(j));
+//				}
+//				//RIGHT 일때
+//				if(inList.get(0).equals("RIGHT")) {
+//
+//					list.get(i+1).add(4,"(+)");
+//					innerOuter.add(inList.get(j));
+//				}
 
-//				if(inList.get(0).equals("ON")) {
-                //첫번째 들어오는 문자열이 ON일때 공백으로 전환
+                switch (inList.get(0)) {
+                    case "LEFT":
+                        //해당 다음 번째 인덱스의 2 번째 번지에 (+) 추가   "*i+1은 ON 절이 있는 부분"
+                        list.get(i+1).add(2,"(+)");
+                        innerOuter.add(inList.get(j));
+                        break;
+
+                    case "RIGHT":
+                        //해당 다음 번째 인덱스의 4 번째 번지에 (+) 추가
+                        list.get(i+1).add(4,"(+)");
+                        innerOuter.add(inList.get(j));
+                        break;
+
+                    default:
+                        innerOuter.add(inList.get(j));
+                        break;
+
+                }
+                //innerOuter.add(inList.get(j));
+
 
                 if(j==0) {
                     inList.get(j).replace("ON", " ");
@@ -80,8 +111,6 @@ public class AnsiToOracle implements Ansi{
 
 
                 innerOuter.add(inList.get(j));
-
-//				}
 
                 //where의 arraylist에 추가
                 if(inList.get(0).equals("WHERE")) {
@@ -99,6 +128,7 @@ public class AnsiToOracle implements Ansi{
             //where 가 없으면 innerOuter 그냥 리턴
             //innerOuter첫번째 방에 WHERE추가해야함
         }
+
     }
 
     @Override
