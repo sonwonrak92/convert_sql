@@ -261,13 +261,19 @@ public class AnsiToOracle implements Ansi{
         }
 
         // where 절
-        regex = Pattern.compile("(?<=FROM).+");    // 정규식 변수
+        regex = Pattern.compile("(?<=WHERE).+");    // 정규식 변수
         matcher = regex.matcher(sql);
-        targetSql = "";
 
         if (matcher.find()) {
             targetSql = matcher.group(0);
-            System.out.println("targetSql :: " + targetSql);
+            System.out.println("WHERE :: " + targetSql);
+            ArrayList<String> temp = new ArrayList<>();
+            temp.add("WHERE");
+            String[] arrStr = targetSql.split("\\s+");
+            for (int i = 0; i < arrStr.length; i++) {
+                temp.add(arrStr[i]);
+            }
+            result.add(temp);
         }
 
 
