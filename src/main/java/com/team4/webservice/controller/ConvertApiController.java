@@ -23,11 +23,11 @@ public class ConvertApiController {
        String[] strArr = str.split("\n");
        boolean check = false;
         System.out.println(str);
+        str = str.trim().toUpperCase(); //앞뒤공백제거 대문자변환
 
         str = QueryConvertUtil.replaceLnToSpace(str);
         check = QueryConvertUtil.valCheck(str);
-        System.out.println("ConvertApiController[채유진]");
-        System.out.println(check);
+        System.out.println("ConvertApiController[채유진] > "+ check + " :" + str);
 
         String newQuery;
 
