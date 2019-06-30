@@ -8,9 +8,13 @@ public enum AnsiSyntax {
     FULL_OUTER_JOIN("FULL OUTER JOIN"),     //Validation을 위해 사용
     USING("USING");
 
-    String character;
+    String str;
 
-    AnsiSyntax(String character) {
-        this.character = character;
+    AnsiSyntax(String str) {
+        this.str = str;
+    }
+
+    public String getSyntex() {
+        return str;
     }
 }
