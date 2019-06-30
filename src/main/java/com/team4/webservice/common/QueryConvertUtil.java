@@ -63,40 +63,41 @@ public class QueryConvertUtil {
         return queryTextArry;
     }
 
-    public static String SetQueryText(String newQuery, ArrayList<String> oldQueryText){
+	public static String SetQueryText(String newQuery, ArrayList<String> oldQueryText){ 
+		
+		StringBuffer sb = new StringBuffer();
+		String[] newQuerySplitArry = newQuery.split(BETWEEN_QUOTES_REGEX);
+		
+	  
+	  for(int i = 0; i < oldQueryText.size(); i++){ 
+		  newQuerySplitArry[i] =  newQuerySplitArry[i] + oldQueryText.get(i);
+	  }
+	  
+	  for(String str : newQuerySplitArry) {
+		  System.out.println(str);
+		  sb.append(str);
+	  }
+	
+	 return sb.toString(); 
+	}
 
-        StringBuffer sb = new StringBuffer();
-        String[] newQuerySplitArry = newQuery.split(BETWEEN_QUOTES_REGEX);
+	// ""없는 AS의 경우 일괄 ""적용
 
+	//채유진 2019.06.23
+	public static boolean valCheck (String str) {
+		boolean chk = true;
 
-        for(int i = 0; i < oldQueryText.size(); i++){
-            newQuerySplitArry[i] =  newQuerySplitArry[i] + oldQueryText.get(i);
-        }
+		if(str.contains("SELECT ") && str.contains(" FROM ")) {
+			for(OperatorsSyntax op : OperatorsSyntax.values()) {
+				String chr = op.character;
+				if(str.contains(chr)) {
+					if(str.contains(" WHERE ") || str.contains(" ON ")) {
+						return chk;
+					}else chk=false;
+				};
+			}
+		}else chk=false;
 
-        for(String str : newQuerySplitArry) {
-            sb.append(str);
-        }
-
-        return sb.toString();
-    }
-
-    // ""없는 AS의 경우 일괄 ""적용
-
-    //채유진 2019.06.23
-    public static boolean valCheck (String str) {
-        boolean chk = true;
-
-        if(str.contains("SELECT ") && str.contains(" FROM ")) {
-            for(OperatorsSyntax op : OperatorsSyntax.values()) {
-                String chr = op.character;
-                if(str.contains(chr)) {
-                    if(str.contains(" WHERE ") || str.contains(" ON ")) {
-                        return chk;
-                    }else chk=false;
-                };
-            }
-        }else chk=false;
-
-        return chk;
-    }
+		return chk;
+	}
 }

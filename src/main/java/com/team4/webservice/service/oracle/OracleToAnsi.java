@@ -11,8 +11,4 @@ public class OracleToAnsi implements Oracle{
 
     }
 
-    @Override
-    public void removeSpaces() {
-
-    }
 }
