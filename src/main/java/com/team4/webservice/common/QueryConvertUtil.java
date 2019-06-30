@@ -86,8 +86,6 @@ public class QueryConvertUtil {
     //채유진 2019.06.30 유효성검사 항목 추가
     public static boolean valCheck (String str) {
         boolean chk = true;
-        str.trim(); //앞뒤공백제거
-        str.toUpperCase(); //대문자변환
 
         if(str.contains("FULL OUTER JOIN ")){ //FULL OUTER JOIN 은 오라클에서 사용불가
             chk = false;
