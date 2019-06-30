@@ -63,41 +63,47 @@ public class QueryConvertUtil {
         return queryTextArry;
     }
 
-	public static String SetQueryText(String newQuery, ArrayList<String> oldQueryText){ 
-		
-		StringBuffer sb = new StringBuffer();
-		String[] newQuerySplitArry = newQuery.split(BETWEEN_QUOTES_REGEX);
-		
-	  
-	  for(int i = 0; i < oldQueryText.size(); i++){ 
-		  newQuerySplitArry[i] =  newQuerySplitArry[i] + oldQueryText.get(i);
-	  }
-	  
-	  for(String str : newQuerySplitArry) {
-		  System.out.println(str);
-		  sb.append(str);
-	  }
-	
-	 return sb.toString(); 
-	}
+    public static String SetQueryText(String newQuery, ArrayList<String> oldQueryText){
 
-	// ""없는 AS의 경우 일괄 ""적용
+        StringBuffer sb = new StringBuffer();
+        String[] newQuerySplitArry = newQuery.split(BETWEEN_QUOTES_REGEX);
 
-	//채유진 2019.06.23
-	public static boolean valCheck (String str) {
-		boolean chk = true;
 
-		if(str.contains("SELECT ") && str.contains(" FROM ")) {
-			for(OperatorsSyntax op : OperatorsSyntax.values()) {
-				String chr = op.character;
-				if(str.contains(chr)) {
-					if(str.contains(" WHERE ") || str.contains(" ON ")) {
-						return chk;
-					}else chk=false;
-				};
-			}
-		}else chk=false;
+        for(int i = 0; i < oldQueryText.size(); i++){
+            newQuerySplitArry[i] =  newQuerySplitArry[i] + oldQueryText.get(i);
+        }
 
-		return chk;
-	}
+        for(String str : newQuerySplitArry) {
+            sb.append(str);
+        }
+
+        return sb.toString();
+    }
+
+    // ""없는 AS의 경우 일괄 ""적용
+
+    //채유진 2019.06.23
+    //채유진 2019.06.30 유효성검사 항목 추가
+    public static boolean valCheck (String str) {
+        boolean chk = true;
+        str.trim(); //앞뒤공백제거
+        str.toUpperCase(); //대문자변환
+
+        if(str.contains("FULL OUTER JOIN ")){ //FULL OUTER JOIN 은 오라클에서 사용불가
+            chk = false;
+        } else {
+            if (str.contains("SELECT ") && str.contains(" FROM ")) { // SELECT FROM 없는지 체크
+                for (OperatorsSyntax op : OperatorsSyntax.values()) {
+                    String chr = op.character;
+                    if (str.contains(chr)) {
+                        if (str.contains(" WHERE ") || str.contains(" ON ")) { //조건절 있으면 WHERE나 ON 있어야함
+                            return chk;
+                        } else chk = false;
+                    }
+                    ;
+                }
+            } else chk = false;
+        }
+        return chk;
+    }
 }
