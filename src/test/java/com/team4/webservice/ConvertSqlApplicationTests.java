@@ -42,7 +42,13 @@ public class ConvertSqlApplicationTests {
 
 	@Test
 	public void sql파싱(){
-		String inSql = "SELECT * FROM TEST_A AS \"A\" LEFT OUTER JOIN TEST_B AS \"B\" ON A.ID = B.ID INNER JOIN TEST_C AS \"C\" ON B.ID = C.ID WHERE 1=1 AND A.NAME = '주누';";
+		String inSql = "SELECT select_list\n" +
+				"\n" +
+				"FROM TABLE1 T1\n" +
+				"\n" +
+				"INNER JOIN TABLE2 T2 ON T1.COL1 = T2.COL2\n" +
+				"\n" +
+				"WHERE T1.A = 'test' AND T2.B = 1;";
 		System.out.println("inSql :: " + inSql);
 		ArrayList<ArrayList<String>> result = ansi.parseStrToArr(inSql);
 		System.out.println("result :: " + result);

@@ -3,6 +3,7 @@ package com.team4.webservice.service.ansi;
 import com.team4.webservice.common.syntaxEnum.AnsiSyntax;
 import com.team4.webservice.common.syntaxEnum.CommonSyntax;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 //모든 코드는 데이터를 받아왔다는 전제로 한다.
 //받아야하는 데이터 범위 : INNER부터  끝까지
 //1) INNER JOIN OUTER RIGHT JOIN은
@@ -261,7 +262,7 @@ public class AnsiToOracle implements Ansi{
         }
 
         // where 절
-        regex = Pattern.compile("(?<=WHERE).+");    // 정규식 변수
+        regex = Pattern.compile("(?<=WHERE ).+");    // 정규식 변수
         matcher = regex.matcher(sql);
 
         if (matcher.find()) {
