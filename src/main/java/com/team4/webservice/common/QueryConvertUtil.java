@@ -11,6 +11,8 @@ public class QueryConvertUtil {
     static final String OPERATOR_REGEX = "(\\+|-|\\*|\\/|=|>|<|>=|<=|<>|&|\\||%|!|\\^|\\(|\\)";
     static final String FIND_SPACE_REGEX = "(\\s{2,})";
     static final String BETWEEN_QUOTES_REGEX = "(\"([^\"]|\"\")*\")|(\'([^\']|\'\')*\')";
+    static final String BETWEEN_FROM_ORDER_BY = "(?<=FROM).+(?=ORDER BY)";
+    static final String BETWEEN_FROM_GROUP_BY = "(?<=FROM).+(?=GROUP BY)";
     // 공백제거
     /*
      * 공백제거
@@ -42,7 +44,7 @@ public class QueryConvertUtil {
         return result;
     }
 
-    public static ArrayList<String> GetQueryText(String query) {
+    public static ArrayList<String> getQueryText(String query) {
         /*
          * quotes 사이 내용을 가져와 배열로 만든다.
          *  ex)SELECT NAME AS "이름" FROM USER A WHERE A.NAME = '김다미'
@@ -63,7 +65,7 @@ public class QueryConvertUtil {
         return queryTextArry;
     }
 
-    public static String SetQueryText(String newQuery, ArrayList<String> oldQueryText){
+    public static String setQueryText(String newQuery, ArrayList<String> oldQueryText){
 
         StringBuffer sb = new StringBuffer();
         String[] newQuerySplitArry = newQuery.split(BETWEEN_QUOTES_REGEX);
@@ -104,4 +106,23 @@ public class QueryConvertUtil {
         }
         return chk;
     }
+    
+
+    /*표준화를 거친 쿼리의 JOIN조건절을 형태에 맞게 변환된 JOIN조건절로  변환*/
+    public static String setConvertJoinQuery(String newQuery, String convertedJoinSection){
+    	String convertedNewQuery = null;
+    	
+    	if( !newQuery.contains(" GROUP BY ") && !newQuery.contains(" ORDER BY ") ) {
+    		return newQuery;
+    	}
+    	
+    	if(!newQuery.contains(" GROUP BY ") &&  newQuery.contains(" ORDER BY ") ) {
+    		convertedNewQuery = newQuery.replaceAll(BETWEEN_FROM_ORDER_BY, convertedJoinSection);
+    	}else{
+    		convertedNewQuery = newQuery.replaceAll(BETWEEN_FROM_GROUP_BY, convertedJoinSection);
+    	}
+    		
+		return convertedNewQuery;
+    }
+    	
 }
