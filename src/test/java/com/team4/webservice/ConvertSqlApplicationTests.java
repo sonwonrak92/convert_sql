@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ConvertSqlApplicationTests {
@@ -36,6 +38,25 @@ public class ConvertSqlApplicationTests {
 
         String result = ansi.makeAlias(inSql);
         System.out.println("result :: " + result);
+	}
+
+	@Test
+	public void sql파싱(){
+		String inSql = "SELECT select_list\n" +
+				"\n" +
+				"FROM TABLE1 T1\n" +
+				"\n" +
+				"INNER JOIN TABLE2 T2 ON T1.COL1 = T2.COL2\n" +
+				"\n" +
+				"WHERE T1.A = 'test' AND T2.B = 1;";
+		System.out.println("inSql :: " + inSql);
+		ArrayList<ArrayList<String>> result = ansi.parseStrToArr(inSql);
+		System.out.println("result :: " + result);
+
+//		inSql = "SELECT * FROM TEST_A AS \"A\" LEFT OUTER JOIN TEST_B AS \"B\" ON A.ID = B.ID INNER JOIN TEST_C AS \"C\" ON B.ID = C.ID;";
+//		System.out.println("inSql :: " + inSql);
+//		result = ansi.parseStrToArr(inSql);
+//		System.out.println("result :: " + result);
 	}
 
 }
