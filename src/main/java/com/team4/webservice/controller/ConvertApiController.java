@@ -43,7 +43,8 @@ public class ConvertApiController {
             StringBuffer sb = ansiToOracle.moveToFrom(list);
             System.out.println("반환데이터(이상훈 > 최준우)");
             System.out.println(sb);
-
+            System.out.println("####################################");
+            System.out.println(QueryConvertUtil.setConvertJoinQuery(newQuery, sb.toString()));
             newQuery = QueryConvertUtil.setQueryText(newQuery,QueryConvertUtil.getQueryText(str));
 
             //System.out.println(newQuery);
