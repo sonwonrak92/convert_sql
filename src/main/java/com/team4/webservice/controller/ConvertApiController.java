@@ -20,16 +20,16 @@ public class ConvertApiController {
     @PostMapping("/ansi/oracle")
     public Map<String, String> ansiToOracle(@RequestBody Map<String, String> param) {
         
-       String getOldQueryText = param.get("targetText");
-       String str = param.get("targetText");
-       String[] strArr = str.split("\n");
-       boolean check = false;
+        
+        String str = param.get("targetText");
+        String[] strArr = str.split("\n");
+        boolean check = false;
         System.out.println(str);
         str = str.trim().toUpperCase(); //앞뒤공백제거 대문자변환
 
         str = QueryConvertUtil.replaceLnToSpace(str);
         check = QueryConvertUtil.valCheck(str);
-        //System.out.println("ConvertApiController[채유진] > "+ check + " :" + str);
+        System.out.println("ConvertApiController[채유진] > "+ check + " :" + str);
 
         String newQuery;
 
@@ -43,10 +43,8 @@ public class ConvertApiController {
             StringBuffer sb = ansiToOracle.moveToFrom(list);
             System.out.println("반환데이터(이상훈 > 최준우)");
             System.out.println(sb);
-            System.out.println("###########################");
-            
-            System.out.println(QueryConvertUtil.setConvertJoinQuery(newQuery, sb.toString()));
-//            newQuery = QueryConvertUtil.setQueryText(newQuery,QueryConvertUtil.getQueryText(getOldQueryText));
+
+            newQuery = QueryConvertUtil.setQueryText(newQuery,QueryConvertUtil.getQueryText(str));
 
             //System.out.println(newQuery);
 
