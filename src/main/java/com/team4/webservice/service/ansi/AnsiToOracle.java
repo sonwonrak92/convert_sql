@@ -225,6 +225,25 @@ public class AnsiToOracle implements Ansi{
                 targetSql = matcher.group(0);
             }
         }
+        // FROM절부터 맨 뒤 까지 자른 데이터 중 GROUP BY가 포함되어있는지 확인
+        else if (targetSql.indexOf(CommonSyntax.GROUP_BY.getSyntex()) > -1) {
+            regex = Pattern.compile(".+(?=GROUP)");    // 정규식 변수
+            matcher = regex.matcher(targetSql);
+            if (matcher.find()) {
+                targetSql = matcher.group(0);
+            }
+        }
+        // FROM절부터 맨 뒤 까지 자른 데이터 중 ORDER BY가 포함되어있는지 확인
+        else if (targetSql.indexOf(CommonSyntax.ORDER_BY.getSyntex()) > -1) {
+            regex = Pattern.compile(".+(?=ORDER)");    // 정규식 변수
+            matcher = regex.matcher(targetSql);
+            if (matcher.find()) {
+                targetSql = matcher.group(0);
+            }
+        }
+
+
+
         ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
         // FROM ~ WHERE OR 맨 뒤 까지 데이터가 담겨있음
         //System.out.println("target sql :: " + targetSql);
