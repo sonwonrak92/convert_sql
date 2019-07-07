@@ -1,18 +1,19 @@
 package com.team4.webservice.service.ansi;
 
-import com.team4.webservice.common.syntaxEnum.AnsiSyntax;
 import com.team4.webservice.common.syntaxEnum.CommonSyntax;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
+
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 //모든 코드는 데이터를 받아왔다는 전제로 한다.
 //받아야하는 데이터 범위 : INNER부터  끝까지
 //1) INNER JOIN OUTER RIGHT JOIN은
 //현재 ,로 받아왔다는 전제로 코딩하였음
 //만약 ,로 치환이 아니라면 list 하나에 [INNER JOIN] 통째로 넣어 주길 바람
-
 //2) 데이터를 받아오는 형식은 ArrayList안에 ArrayList를 제네릭으로 받는 것으로 구성하였음
 //	ex) ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
-
 //3) 값을 넘길때는 밑에와같이 잘라서 넘겨주길 바람
 //**************************************
 //INNER JOIN DEPT1 AS 2    (0)
@@ -35,12 +36,6 @@ import org.springframework.util.StringUtils;
 //WHERE A.ID > 1000			(4)
 // AND C.ID < 2000
 //**************************************
-import java.util.ArrayList;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 public class AnsiToOracle implements Ansi{
@@ -332,8 +327,6 @@ public class AnsiToOracle implements Ansi{
                 targetSql = matcher.group(0);
             }
         }
-        // 세미콜론 제거
-        targetSql.replace(";", "");
 
         ArrayList<String> temp = new ArrayList<>();
         temp.add("WHERE");
@@ -342,9 +335,6 @@ public class AnsiToOracle implements Ansi{
             temp.add(arrStr[i]);
         }
         result.add(temp);
-
-
-
 
         return result;
     }

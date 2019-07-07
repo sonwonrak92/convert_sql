@@ -1,6 +1,7 @@
 package com.team4.webservice.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.team4.webservice.common.QueryConvertUtil;
@@ -31,7 +32,7 @@ public class ConvertApiController {
         check = QueryConvertUtil.valCheck(str);
         System.out.println("ConvertApiController[채유진] > "+ check + " :" + str);
 
-        String newQuery;
+        String newQuery = null;
 
         if(check){
             newQuery = QueryConvertUtil.replaceAllSingleSpace(str);
@@ -50,8 +51,10 @@ public class ConvertApiController {
 
 
         }
+        Map<String, String> resultParam = new HashMap<>();
+        resultParam.put("newQuery", newQuery);
 
-        return null;    // TODO 임시
+        return resultParam;    // TODO 임시
     }
 
 }
