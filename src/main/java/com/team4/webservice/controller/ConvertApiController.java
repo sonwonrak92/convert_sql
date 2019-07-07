@@ -20,7 +20,7 @@ public class ConvertApiController {
     @PostMapping("/ansi/oracle")
     public Map<String, String> ansiToOracle(@RequestBody Map<String, String> param) {
         
-        
+       String getOldQueryText = param.get("targetText");
        String str = param.get("targetText");
        String[] strArr = str.split("\n");
        boolean check = false;
@@ -43,8 +43,10 @@ public class ConvertApiController {
             StringBuffer sb = ansiToOracle.moveToFrom(list);
             System.out.println("반환데이터(이상훈 > 최준우)");
             System.out.println(sb);
-
-            newQuery = QueryConvertUtil.setQueryText(newQuery,QueryConvertUtil.getQueryText(str));
+            System.out.println("###########################");
+            
+            System.out.println(QueryConvertUtil.setConvertJoinQuery(newQuery, sb.toString()));
+//            newQuery = QueryConvertUtil.setQueryText(newQuery,QueryConvertUtil.getQueryText(getOldQueryText));
 
             //System.out.println(newQuery);
 

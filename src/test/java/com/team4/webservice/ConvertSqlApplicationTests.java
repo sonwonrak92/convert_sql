@@ -72,6 +72,9 @@ public class ConvertSqlApplicationTests {
 		ArrayList<ArrayList<String>> result = ansi.parseStrToArr(inSql);
 		System.out.println("result :: " + result);
 	}
+	
+	
+	
 
 
 }

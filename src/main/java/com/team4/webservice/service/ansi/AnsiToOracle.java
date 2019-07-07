@@ -51,7 +51,7 @@ public class AnsiToOracle implements Ansi{
 
         System.out.println("최준우 > moveToFrom");
          //데이터 확인
-        //System.out.println(list);
+        System.out.println(list);
         // TODO Auto-generated method stub
         /****************************************변수선언****************************************/
         ArrayList<String> innerOuter = new ArrayList<>();   //from으로 갈것들
