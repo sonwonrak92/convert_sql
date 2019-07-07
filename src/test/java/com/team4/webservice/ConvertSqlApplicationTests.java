@@ -25,7 +25,7 @@ public class ConvertSqlApplicationTests {
 
 		newQuery = QueryConvertUtil.replaceAllSingleSpace(oldQuery);
 
-		newQuery = QueryConvertUtil.SetQueryText(newQuery,QueryConvertUtil.GetQueryText(oldQuery));
+		newQuery = QueryConvertUtil.setQueryText(newQuery,QueryConvertUtil.getQueryText(oldQuery));
 
 		System.out.println(newQuery);
 
@@ -41,7 +41,7 @@ public class ConvertSqlApplicationTests {
 	}
 
 	@Test
-	public void sql파싱(){
+	public void 이상훈_테스트1(){
 		String inSql = "SELECT select_list\n" +
 				"\n" +
 				"FROM TABLE1 T1\n" +
@@ -52,11 +52,26 @@ public class ConvertSqlApplicationTests {
 		System.out.println("inSql :: " + inSql);
 		ArrayList<ArrayList<String>> result = ansi.parseStrToArr(inSql);
 		System.out.println("result :: " + result);
-
-//		inSql = "SELECT * FROM TEST_A AS \"A\" LEFT OUTER JOIN TEST_B AS \"B\" ON A.ID = B.ID INNER JOIN TEST_C AS \"C\" ON B.ID = C.ID;";
-//		System.out.println("inSql :: " + inSql);
-//		result = ansi.parseStrToArr(inSql);
-//		System.out.println("result :: " + result);
 	}
+	@Test
+	public void 이상훈_테스트2(){
+		String inSql = "FROM test t\n" +
+				"SELECT '123' AS number\n" +
+				"WHERE 1=1";
+		System.out.println("inSql :: " + inSql);
+		ArrayList<ArrayList<String>> result = ansi.parseStrToArr(inSql);
+		System.out.println("result :: " + result);
+	}
+	@Test
+	public void 이상훈_테스트3(){
+		String inSql = "SELECT *\n" +
+				"FROM TEST A\n" +
+				"GROUP BY A.TITLE\n" +
+				"ORDER BY A.NAME;";
+		System.out.println("inSql :: " + inSql);
+		ArrayList<ArrayList<String>> result = ansi.parseStrToArr(inSql);
+		System.out.println("result :: " + result);
+	}
+
 
 }

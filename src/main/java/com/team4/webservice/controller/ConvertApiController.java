@@ -44,7 +44,7 @@ public class ConvertApiController {
             System.out.println("반환데이터(이상훈 > 최준우)");
             System.out.println(sb);
 
-            newQuery = QueryConvertUtil.SetQueryText(newQuery,QueryConvertUtil.GetQueryText(str));
+            newQuery = QueryConvertUtil.setQueryText(newQuery,QueryConvertUtil.getQueryText(str));
 
             //System.out.println(newQuery);
 

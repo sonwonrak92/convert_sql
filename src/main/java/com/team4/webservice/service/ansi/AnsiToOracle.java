@@ -164,6 +164,11 @@ public class AnsiToOracle implements Ansi{
     }
 
     @Override
+    public void moveToFrom() {
+
+    }
+
+    @Override
     public void onToWhere() {
 
     }
