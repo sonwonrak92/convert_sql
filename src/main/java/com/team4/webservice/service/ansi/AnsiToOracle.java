@@ -248,7 +248,6 @@ public class AnsiToOracle implements Ansi{
         }
 
 
-
         ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
         // FROM ~ WHERE OR 맨 뒤 까지 데이터가 담겨있음
         //System.out.println("target sql :: " + targetSql);
@@ -315,15 +314,34 @@ public class AnsiToOracle implements Ansi{
 
         if (matcher.find()) {
             targetSql = matcher.group(0);
-            //System.out.println("WHERE :: " + targetSql);
-            ArrayList<String> temp = new ArrayList<>();
-            temp.add("WHERE");
-            String[] arrStr = targetSql.split("\\s+");
-            for (int i = 0; i < arrStr.length; i++) {
-                temp.add(arrStr[i]);
-            }
-            result.add(temp);
         }
+        // GROUP BY 절이 있으면 그 전까지 자르기
+        if (targetSql.indexOf(CommonSyntax.GROUP_BY.getSyntex()) > -1) {
+            regex = Pattern.compile(".+(?=GROUP)");    // 정규식 변수
+            matcher = regex.matcher(targetSql);
+            if (matcher.find()) {
+                targetSql = matcher.group(0);
+            }
+        }
+        // ORDER BY 절이 있으면 그 전까지 자르기
+        else if (targetSql.indexOf(CommonSyntax.ORDER_BY.getSyntex()) > -1) {
+            System.out.println("주문");
+            regex = Pattern.compile(".+(?=ORDER)");    // 정규식 변수
+            matcher = regex.matcher(targetSql);
+            if (matcher.find()) {
+                targetSql = matcher.group(0);
+            }
+        }
+        // 세미콜론 제거
+        targetSql.replace(";", "");
+
+        ArrayList<String> temp = new ArrayList<>();
+        temp.add("WHERE");
+        String[] arrStr = targetSql.split("\\s+");
+        for (int i = 0; i < arrStr.length; i++) {
+            temp.add(arrStr[i]);
+        }
+        result.add(temp);
 
 
 
