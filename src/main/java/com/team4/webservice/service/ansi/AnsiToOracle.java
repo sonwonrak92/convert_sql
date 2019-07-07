@@ -1,15 +1,5 @@
 package com.team4.webservice.service.ansi;
 
-import com.team4.webservice.common.syntaxEnum.AnsiSyntax;
-import com.team4.webservice.common.syntaxEnum.CommonSyntax;
-import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-//모든 코드는 데이터를 받아왔다는 전제로 한다.
-//받아야하는 데이터 범위 : INNER부터  끝까지
-//1) INNER JOIN OUTER RIGHT JOIN은
-//현재 ,로 받아왔다는 전제로 코딩하였음
-//만약 ,로 치환이 아니라면 list 하나에 [INNER JOIN] 통째로 넣어 주길 바람
-
 //2) 데이터를 받아오는 형식은 ArrayList안에 ArrayList를 제네릭으로 받는 것으로 구성하였음
 //	ex) ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
 
@@ -36,14 +26,29 @@ import org.springframework.util.StringUtils;
 // AND C.ID < 2000
 //**************************************
 import java.util.ArrayList;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.springframework.stereotype.Service;
+
+import com.team4.webservice.common.QueryConvertUtil;
+import com.team4.webservice.common.syntaxEnum.CommonSyntax;
+
 @Service
 public class AnsiToOracle implements Ansi{
+	
+	public String exec(String query) {
+		
+        query = QueryConvertUtil.replaceAllSingleSpace(query);
+
+        //2019.06.30 이상훈 코드 추가(split 후 최준우 파라미터 전송)
+        AnsiToOracle ansiToOracle = new AnsiToOracle();
+        ArrayList<ArrayList<String>> list = ansiToOracle.parseStrToArr(query);
+        StringBuffer sb = ansiToOracle.moveToFrom(list);
+        String convertedQuery =  QueryConvertUtil.setConvertJoinQuery(query, sb.toString());
+        //유진이 옵션들어가는 부분
+        return convertedQuery;
+	}
 
 
 

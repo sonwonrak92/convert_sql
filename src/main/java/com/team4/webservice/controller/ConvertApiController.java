@@ -1,58 +1,46 @@
 package com.team4.webservice.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
-import com.team4.webservice.common.QueryConvertUtil;
-import com.team4.webservice.service.ansi.AnsiToOracle;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.team4.webservice.common.QueryConvertUtil;
+import com.team4.webservice.service.ansi.AnsiToOracle;
+
 @RestController
 public class ConvertApiController {
-
-    /** ANSI SQL convert to Oracle SQL
-     *
-     * @param param
-     * @return T^T
-     * */
+	@Autowired
+	AnsiToOracle ato;
+	
     @PostMapping("/ansi/oracle")
     public Map<String, String> ansiToOracle(@RequestBody Map<String, String> param) {
+    	
+    	Map<String, String> result = new HashMap<>();
+    	String newQuery = null;
+    	
+        String query = param.get("targetText");
+        String valChkQuery = param.get("targetText");
         
-        
-        String str = param.get("targetText");
-        String[] strArr = str.split("\n");
+        String[] strArr = valChkQuery.split("\n");
         boolean check = false;
-        System.out.println(str);
-        str = str.trim().toUpperCase(); //앞뒤공백제거 대문자변환
-
-        str = QueryConvertUtil.replaceLnToSpace(str);
-        check = QueryConvertUtil.valCheck(str);
-        System.out.println("ConvertApiController[채유진] > "+ check + " :" + str);
-
-        String newQuery;
+        
+        valChkQuery = valChkQuery.trim().toUpperCase(); //앞뒤공백제거 대문자변환
+        valChkQuery = QueryConvertUtil.replaceLnToSpace(valChkQuery);
+        check = QueryConvertUtil.valCheck(valChkQuery);
 
         if(check){
-            newQuery = QueryConvertUtil.replaceAllSingleSpace(str);
-
-            //2019.06.30 이상훈 코드 추가(split 후 최준우 파라미터 전송)
-            AnsiToOracle ansiToOracle = new AnsiToOracle();
-            ArrayList<ArrayList<String>> list = ansiToOracle.parseStrToArr(newQuery);
-
-            StringBuffer sb = ansiToOracle.moveToFrom(list);
-            System.out.println("반환데이터(이상훈 > 최준우)");
-            System.out.println(sb);
-            System.out.println("####################################");
-            System.out.println(QueryConvertUtil.setConvertJoinQuery(newQuery, sb.toString()));
-            newQuery = QueryConvertUtil.setQueryText(newQuery,QueryConvertUtil.getQueryText(str));
-
-            //System.out.println(newQuery);
-
-
+        	ArrayList<String> oldQueryText = QueryConvertUtil.getQueryText(query);
+        	newQuery = ato.exec(query);
+        	newQuery = QueryConvertUtil.setQueryText(newQuery,oldQueryText);  
+        	result.put("resultQuery", newQuery);
         }
-
-        return null;    // TODO 임시
+        //옵션넣읍시다
+        return result;    // TODO 임시
     }
 
 }
