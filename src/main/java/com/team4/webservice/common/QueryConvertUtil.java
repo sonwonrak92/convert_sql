@@ -111,17 +111,20 @@ public class QueryConvertUtil {
     /*표준화를 거친 new쿼리에 형태에 맞게 변환된 JOIN조건절을 세팅 */
     public static String setConvertJoinQuery(String newQuery, String convertedJoinSection){
     	String convertedNewQuery = null;
+    	newQuery = newQuery.replace(";", "");
     	
     	if( !newQuery.contains(" GROUP BY ") && !newQuery.contains(" ORDER BY ") ) {
+    		newQuery += ";";
     		return newQuery;
     	}
+    	 
     	
     	if(!newQuery.contains(" GROUP BY ")) {
     		convertedNewQuery = newQuery.replaceAll(BETWEEN_FROM_ORDER_BY, convertedJoinSection);
     	}else{
     		convertedNewQuery = newQuery.replaceAll(BETWEEN_FROM_GROUP_BY, convertedJoinSection);
     	}
-    		
+    	convertedNewQuery += ";";
 		return convertedNewQuery;
     }
     	
