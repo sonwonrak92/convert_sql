@@ -27,12 +27,6 @@ public class AnsiToOracle implements Ansi{
 
 
     public StringBuffer moveToFrom(ArrayList<ArrayList<String>> list) {
-
-        System.out.println("최준우 > moveToFrom");
-         //데이터 확인
-        System.out.println("상훈상훈");
-        System.out.println(list);
-        // TODO Auto-generated method stub
         /****************************************변수선언****************************************/
         ArrayList<String> innerOuter = new ArrayList<>();   //from으로 갈것들
         ArrayList<String> where = new ArrayList<>();        //where부터 끝까지
@@ -106,14 +100,6 @@ public class AnsiToOracle implements Ansi{
 
                     break;
             }
-
-
-//            System.out.println("*********************데이터출력*********************");
-//            System.out.println("innerOuter"+innerOuter);
-//            System.out.println("where" + where);
-//            System.out.println("on"+on);
-
-
         }
         //where가 있을시 where arraylist에  innerOuter list 추가
         if (where_yn == true) {
@@ -129,14 +115,11 @@ public class AnsiToOracle implements Ansi{
             innerOuter.addAll(on);
             result = innerOuter;
         }
-//        System.out.println("결과");
-//        System.out.println(result);
 
         for(int i=0;i<result.size();i++){
             sb.append(result.get(i));
             sb.append(" ");
         }
-        sb.append(";");
         System.out.println("*********************데이터출력*********************");
         System.out.println(sb);
         System.out.println("*********************데이터출력*********************");
@@ -169,9 +152,6 @@ public class AnsiToOracle implements Ansi{
             if(97<=arr[i] && arr[i] <=122)
                 arr[i] = (char)(arr[i]-32);
         }
-
-        //1) string 값으로 넘길때
-        //str.toUpperCase();
 
     }
 
@@ -230,10 +210,8 @@ public class AnsiToOracle implements Ansi{
 
         ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
         // FROM ~ WHERE OR 맨 뒤 까지 데이터가 담겨있음
-        //System.out.println("target sql :: " + targetSql);
         String[] arrSql =  targetSql.split("\\s+");
         for (int i = 0; i < arrSql.length; i++) {
-            //System.out.println("target :: " + arrSql[i]);
             int j = 0;
             String flag = "";
             if ("INNER".equals(arrSql[i])) {
@@ -252,14 +230,12 @@ public class AnsiToOracle implements Ansi{
                 j = i + 2;
                 flag = "OUTER";
             }
-            //System.out.println("flag :: " + flag + ", i :: " + i);
             ArrayList<String> temp = new ArrayList<>();
             temp.add(flag);
             if ("".equals(flag)) {
                 continue;
             }
             for (j = j; j < arrSql.length; j++) {
-                //System.out.println("flag :: " + flag + ", j :: " + arrSql[j]);
                 if ("ON".equals(arrSql[j])) {
                     result.add(temp);
                     temp = new ArrayList<>();   // 초기화
@@ -277,7 +253,6 @@ public class AnsiToOracle implements Ansi{
                         temp.add(arrSql[j]);
                     }
                     i = j - 1;
-                    //System.out.println("result"+ result.get(result.size() - 1));
                     result.add(temp);
                     break;
                 }

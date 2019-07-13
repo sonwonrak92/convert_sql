@@ -3,6 +3,7 @@ package com.team4.webservice.common;
 import com.team4.webservice.common.syntaxEnum.OperatorsSyntax;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -106,19 +107,16 @@ public class QueryConvertUtil {
         }
         return chk;
     }
-    
 
-    /*표준화를 거친 new쿼리에 형태에 맞게 변환된 JOIN조건절을 세팅 */
+    /*표준화를 거친 new쿼리 형태에 맞게 변환된 JOIN조건절을 세팅 */
     public static String setConvertJoinQuery(String newQuery, String convertedJoinSection){
     	String convertedNewQuery = null;
-    	newQuery = newQuery.replace(";", "");
-    	
+    	newQuery = newQuery.replaceAll(";", "");
     	if( !newQuery.contains(" GROUP BY ") && !newQuery.contains(" ORDER BY ") ) {
     		newQuery += ";";
     		return newQuery;
     	}
     	 
-    	
     	if(!newQuery.contains(" GROUP BY ")) {
     		convertedNewQuery = newQuery.replaceAll(BETWEEN_FROM_ORDER_BY, convertedJoinSection);
     	}else{
@@ -127,5 +125,68 @@ public class QueryConvertUtil {
     	convertedNewQuery += ";";
 		return convertedNewQuery;
     }
+    
+    public static String defaultLnSetting(String query) {
+    	//DB에 따라 재구성할 필요 있음. 현재 ORACLE 기준으로 작성    	
+
+    	query = query.replaceAll(",","\n,")
+    				 .replaceAll("FROM","\nFROM,")
+    				 .replaceAll("WHERE","\nWHERE,")
+    			  	 .replaceAll("AND","\nAND")
+    				 .replaceAll("ORDER BY","\nORDER BY")
+    			 	 .replaceAll("GROUP BY","\nGROUP BY");
+    	
+        return query;
+    }
+
+    public static String setQueryOption(String query, Map<String, Boolean> option) {
+        /*
+         *	comma : 콤마옵션
+         *	newLine : 개행옵션
+         *	upperCase : 대소문자옵션
+         */ 
+    	
+        System.out.println("옵션쪽입니다............");
+        System.out.println(option.get("comma"));
+        System.out.println(option.get("newLine"));
+        System.out.println(option.get("upperCase"));
+        System.out.println("옵션쪽입니다............");
+     	
+        
+    	boolean isComma = option.get("comma");
+    	boolean isNewLine = option.get("newLine");
+		boolean isUpperCase = option.get("upperCase");
+		
+	   	 
+        System.out.println("옵션쪽입니다2222............");
+        System.out.println(isComma);
+        System.out.println("옵션쪽입니다2222............");
+     	
+    	
+    	/* 콤마옵션 적용 */    	
+		if( isComma ) {
+			//query = query.setCommaOption(true);
+		}else if( !isComma ){
+			//query = query.setCommaOption(false);
+		}
+		
+		/* 개행옵션 적용 */		
+		if( isNewLine ) {
+			//query = query.setNewLineOption(true);
+		}else if( !isNewLine ){
+			//query = query.setNewLineOption(false);
+		}
+		
+		/* 대소문자 적용 */
+		if( isUpperCase ) {
+			query = query.toUpperCase();
+		}else if( !isUpperCase ){
+			query = query.toLowerCase();
+		}
+
+        return query;
+    }
+
+
     	
 }
