@@ -46,10 +46,9 @@ public class ConvertApiController {
     	/* Pass Validation Process */ 
         if(check){
         	String newQuery = ato.exec(query); //Convert ANSI to Oracle exec
-        	newQuery = QueryConvertUtil.setQueryText(newQuery, oldQueryText); //set Text
-//        	newQuery = QueryConvertUtil.setQueryOption(newQuery, option); //set Option
         	newQuery = QueryConvertUtil.defaultLnSetting(newQuery); //set new line
-        	
+        	newQuery = QueryConvertUtil.setQueryOption(newQuery, option); //set Option
+        	newQuery = QueryConvertUtil.setQueryText(newQuery, oldQueryText); //set Text
         	result.put("resultQuery", newQuery);
         }
         return result;  

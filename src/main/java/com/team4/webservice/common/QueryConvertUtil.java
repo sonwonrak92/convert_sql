@@ -130,8 +130,8 @@ public class QueryConvertUtil {
     	//DB에 따라 재구성할 필요 있음. 현재 ORACLE 기준으로 작성    	
 
     	query = query.replaceAll(",","\n,")
-    				 .replaceAll("FROM","\nFROM,")
-    				 .replaceAll("WHERE","\nWHERE,")
+    				 .replaceAll("FROM","\nFROM")
+    				 .replaceAll("WHERE","\nWHERE")
     			  	 .replaceAll("AND","\nAND")
     				 .replaceAll("ORDER BY","\nORDER BY")
     			 	 .replaceAll("GROUP BY","\nGROUP BY");
@@ -145,23 +145,9 @@ public class QueryConvertUtil {
          *	newLine : 개행옵션
          *	upperCase : 대소문자옵션
          */ 
-    	
-        System.out.println("옵션쪽입니다............");
-        System.out.println(option.get("comma"));
-        System.out.println(option.get("newLine"));
-        System.out.println(option.get("upperCase"));
-        System.out.println("옵션쪽입니다............");
-     	
-        
     	boolean isComma = option.get("comma");
     	boolean isNewLine = option.get("newLine");
 		boolean isUpperCase = option.get("upperCase");
-		
-	   	 
-        System.out.println("옵션쪽입니다2222............");
-        System.out.println(isComma);
-        System.out.println("옵션쪽입니다2222............");
-     	
     	
     	/* 콤마옵션 적용 */    	
 		if( isComma ) {
@@ -178,10 +164,14 @@ public class QueryConvertUtil {
 		}
 		
 		/* 대소문자 적용 */
+		System.out.println(isUpperCase);
 		if( isUpperCase ) {
 			query = query.toUpperCase();
+			System.out.println("대문자적용");
 		}else if( !isUpperCase ){
 			query = query.toLowerCase();
+			System.out.println("소문자적용");
+			System.out.println(query);
 		}
 
         return query;

@@ -27,6 +27,7 @@ public class AnsiToOracle implements Ansi{
 
 
     public StringBuffer moveToFrom(ArrayList<ArrayList<String>> list) {
+    	System.out.println(list.toString());
         /****************************************변수선언****************************************/
         ArrayList<String> innerOuter = new ArrayList<>();   //from으로 갈것들
         ArrayList<String> where = new ArrayList<>();        //where부터 끝까지

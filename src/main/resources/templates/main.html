@@ -98,14 +98,14 @@
     <div id="mySidenav" class="sidenav">
 	    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <a href="#">대소문자 변환</a>
-        <label><input type='radio' name='optionUpper' value=true />전체 대문자</label><br>
-        <label><input type='radio' name='optionUpper' value=false />전체 소문자</label>
+        <label><input type='radio' name='optionUpper' value="true"  checked="checked" />전체 대문자</label><br>
+        <label><input type='radio' name='optionUpper' value="false" />전체 소문자</label>
         <a href="#">콤마위치</a>
-        <label><input type='radio' name='optionComma' value=true />전방위치</label><br>
-        <label><input type='radio' name='optionComma' value=false />후방위치</label>
+        <label><input type='radio' name='optionComma' value="true"  checked="checked"/>전방위치</label><br>
+        <label><input type='radio' name='optionComma' value="false" />후방위치</label>
         <a href="#">개행</a>
-        <label><input type='radio' name='optionLn' value=true />개행1</label><br>
-        <label><input type='radio' name='optionLn' value=false />개행2</label>
+        <label><input type='radio' name='optionLn' value="true"  checked="checked"/>개행1</label><br>
+        <label><input type='radio' name='optionLn' value="false" />개행2</label>
 	    <a href="#">Contact</a>
  	</div>
   
@@ -137,7 +137,7 @@
                 dataType: 'json', 
                 success: function(response) {
                     result = response.resultQuery;                   
-                      
+                      console.log("여기들어와야해");
                     $("#resultText").text(result);
                     
                 }, // 요청 완료 시
