@@ -138,45 +138,24 @@ public class QueryConvertUtil {
     	
         return query;
     }
-
-    public static String setQueryOption(String query, Map<String, Boolean> option) {
-        /*
-         *	comma : 콤마옵션
-         *	newLine : 개행옵션
-         *	upperCase : 대소문자옵션
-         */ 
-    	boolean isComma = option.get("comma");
-    	boolean isNewLine = option.get("newLine");
-		boolean isUpperCase = option.get("upperCase");
-    	
-    	/* 콤마옵션 적용 */    	
-		if( isComma ) {
-			//query = query.setCommaOption(true);
-		}else if( !isComma ){
-			//query = query.setCommaOption(false);
-		}
+    
+	public static String setOption(String query, Map<String, Boolean> option) {
+		boolean sort = option.get("sort");
+		boolean comma = option.get("comma");
+		boolean upper = option.get("upperCase");
 		
-		/* 개행옵션 적용 */		
-		if( isNewLine ) {
-			//query = query.setNewLineOption(true);
-		}else if( !isNewLine ){
-			//query = query.setNewLineOption(false);
-		}
+		//개행 정렬 옵션
+		query = OptionCommaAndSort.exec(query, sort, comma);
 		
-		/* 대소문자 적용 */
-		System.out.println(isUpperCase);
-		if( isUpperCase ) {
+		//대소문자 옵션
+		if (upper) {
 			query = query.toUpperCase();
-			System.out.println("대문자적용");
-		}else if( !isUpperCase ){
+		} else {
 			query = query.toLowerCase();
-			System.out.println("소문자적용");
-			System.out.println(query);
 		}
 
-        return query;
-    }
-
+		return query;
+	}
 
     	
 }

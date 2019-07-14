@@ -83,13 +83,13 @@
     <div class="container">
         <div class ="textSection">
             <div>
-                <textarea class="form-control" name="" id="targetText" cols="50" rows="20" placeholder="변환시킬 SQL을 입력해주세요."></textarea>
+                <textarea class="form-control" name="" id="targetText" cols="50" rows="30" placeholder="변환시킬 SQL을 입력해주세요."></textarea>
             </div>
             <div id="convert-btn-section">
                 <button type="button" class="btn btn-success" id="convertBtn">convert</button>
             </div>
             <div>
-                <textarea class="form-control" name="" id="resultText" cols="50" rows="20"></textarea>
+                <textarea class="form-control" name="" id="resultText" cols="75" rows="30"></textarea>
             </div>
         </div>
 
@@ -103,9 +103,9 @@
         <a href="#">콤마위치</a>
         <label><input type='radio' name='optionComma' value="true"  checked="checked"/>전방위치</label><br>
         <label><input type='radio' name='optionComma' value="false" />후방위치</label>
-        <a href="#">개행</a>
-        <label><input type='radio' name='optionLn' value="true"  checked="checked"/>개행1</label><br>
-        <label><input type='radio' name='optionLn' value="false" />개행2</label>
+        <a href="#">정렬기준</a>
+        <label><input type='radio' name='optionSort' value="true"  checked="checked"/>LEFT</label><br>
+        <label><input type='radio' name='optionSort' value="false" />RIGHT</label>
 	    <a href="#">Contact</a>
  	</div>
   
@@ -119,8 +119,8 @@
     <script  type="text/javascript">
         $("#convertBtn").bind("click", function(event) {
             var option = {
-                comma : $('input[name="optionUpper"]:checked').val() =='true' ? true : false,
-                newLine : $('input[name="optionLn"]:checked').val() =='true' ? true : false,
+                comma : $('input[name="optionComma"]:checked').val() =='true' ? true : false,
+                sort : $('input[name="optionSort"]:checked').val() =='true' ? true : false,
                 upperCase : $('input[name="optionUpper"]:checked').val() =='true' ? true : false,
             };
 
@@ -136,9 +136,11 @@
                 contentType : "application/json; charset=UTF-8",
                 dataType: 'json', 
                 success: function(response) {
+                    $("#resultText").val("");
                     result = response.resultQuery;                   
                       console.log("여기들어와야해");
-                    $("#resultText").text(result);
+                      console.log(result);
+                    $("#resultText").val(result);
                     
                 }, // 요청 완료 시
                 error: function(response) {

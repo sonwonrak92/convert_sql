@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.team4.webservice.common.QueryConvertUtil;
 import com.team4.webservice.service.ansi.AnsiToOracle;
 
@@ -31,12 +30,8 @@ public class ConvertApiController {
          *	newLine : 개행옵션
          *	upperCase : 대소문자옵션
          */     
-        Map option = (Map<String, Boolean>)param.get("option"); //get Input Option
+		Map option = (Map<String, Boolean>)param.get("option"); //get Input Option
     	 
-       System.out.println(option.get("comma"));
-       System.out.println(option.get("newLine"));
-       System.out.println(option.get("upperCase"));
-    	
     	/* Query Validation Check */ 
         String queryValChk = param.get("query").toString();
         queryValChk = queryValChk.trim().toUpperCase(); //앞뒤공백제거 대문자변환
@@ -46,8 +41,7 @@ public class ConvertApiController {
     	/* Pass Validation Process */ 
         if(check){
         	String newQuery = ato.exec(query); //Convert ANSI to Oracle exec
-        	newQuery = QueryConvertUtil.defaultLnSetting(newQuery); //set new line
-        	newQuery = QueryConvertUtil.setQueryOption(newQuery, option); //set Option
+        	newQuery = QueryConvertUtil.setOption(newQuery, option); //set Option
         	newQuery = QueryConvertUtil.setQueryText(newQuery, oldQueryText); //set Text
         	result.put("resultQuery", newQuery);
         }
