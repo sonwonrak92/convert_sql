@@ -118,35 +118,31 @@ public class OptionCommaAndSort {
 		if (query.length() == 0 || query == null || "".equals(query)) {
 			return query;
 		}
-		Pattern regex = Pattern.compile("(?<=select).+(?=from)");    // 정규식 변수
+
+		// SELECT절 추출
+		Pattern regex = Pattern.compile("(?<=SELECT).+(?=FROM)");    // 정규식 변수
 		Matcher matcher = regex.matcher(query);
 		String targetSql = "";
 		if (matcher.find()) {
 			targetSql = matcher.group(0);
 		}
-		targetSql = StringUtils.trimWhitespace(targetSql);
+
+		targetSql = StringUtils.trimWhitespace(targetSql);	// trim
+
 		String[] selectSqlArr = targetSql.split(",");
+		String resultQuery = "SELECT ";
 		for (String column :
 				selectSqlArr) {
-			/* AS 통일 */
-			if (hasAs) {
-				// AS가 없는 경우 붙여준다.
-				if (column.indexOf("AS") == -1) {
-					String[] words = StringUtils.trimWhitespace(column).split("\\s");
-
-					System.out.println("words  " + words);
-				}
-			}
-			else {
+			// 옵션값이 false면 AS를 제거한다
+			if (!hasAs) {
 				// AS가 있는 경우 제거한다.
-				if (column.indexOf("AS") > -1) {
-					column.replace("AS ", "");
+				if (column.indexOf(" AS ") > -1) {
+					column = column.replaceFirst(" AS ", " ");
 				}
-			}
+			}column
+			resultQuery += column;
 		}
-		
 
-		String resultQuery = "";
 		return resultQuery;
 	}
 }
