@@ -69,9 +69,6 @@ public interface CommonInterface {
      */
 
     default String makeAlias(String sql) {
-//        sql = "A.TITLE   AS    \"   title\", A.name \"NAME \", a.age AGE, a.addr";
-        // INPUT 형태 : A.TITLE   AS    "   title", A.name "NAME ", a.age AGE
-        // OUTPUT 형태 : A.TITLE AS " title", A.NAME AS "NAME ", A.AGE AS "AGE"
         String[] parseSql = sql.split("(\\s|)+,(\\s)+");
 
         Pattern regex = null;    // 정규식 변수
@@ -86,7 +83,6 @@ public interface CommonInterface {
             // 쌍따옴표로 감싸진 Alias 분리
             regex = Pattern.compile("(?<=\").+(?=\")+");
             matcher = regex.matcher(text);
-//            System.out.println("Before  :: "  + text);
             while (matcher.find()) {
                 alias = matcher.group(0);
 
@@ -99,7 +95,6 @@ public interface CommonInterface {
                     alias = matcher.group(0);
                 }
             }
-//            System.out.println("Alias   :: " + alias);
             /*********************
              * 대문자 치환 & 공백 제거
              *********************/
@@ -111,20 +106,19 @@ public interface CommonInterface {
             regex = Pattern.compile("^(\\w|\\.)+(?=\\s)");
             matcher = regex.matcher(text);
             while (matcher.find()) {
-//                System.out.println("column  :: " + matcher.group(0));
                 text = matcher.group(0) + " " + CommonSyntax.AS.getSyntex() + " ";
             }
-            // Alias가 있으면 붙여줌(애초에 Alias가 없으면 생략)
+            // Alias가 있으면 붙여줌
             if (!alias.equals("")) {
                 text += "\"" + alias + "\"";
             }
+            // Alias가 없으면 컬럼명으로 붙여줌
+            else {
+                text += " AS \"" + text + "\"";
+            }
             parseSql[i] = text;
-//            System.out.println("After   ::"  + parseSql[i]);
         }
 
-//        for (int i = 0; i < parseSql.length; i++) {
-//            System.out.println(parseSql[i]);
-//        }
         return String.join(", ", parseSql);
     }
 }

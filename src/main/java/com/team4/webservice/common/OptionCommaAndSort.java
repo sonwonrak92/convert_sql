@@ -1,7 +1,11 @@
 package com.team4.webservice.common;
 
+import org.springframework.util.StringUtils;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class OptionCommaAndSort {
 
@@ -101,4 +105,48 @@ public class OptionCommaAndSort {
 		return result;
 	}
 
+	/** [Option] Alias 형태 표준화
+	 *
+	 * String	query - 쿼리문
+	 * boolean 	hasAs - true인 경우에는 AS를 SELECT 절에 모두 붙여준다.
+	 *
+	 * String	query - 옵션을 적용한 쿼리문
+	 * */
+
+	public static String optAddAlias(String query, boolean hasAs) {
+		// validation
+		if (query.length() == 0 || query == null || "".equals(query)) {
+			return query;
+		}
+		Pattern regex = Pattern.compile("(?<=select).+(?=from)");    // 정규식 변수
+		Matcher matcher = regex.matcher(query);
+		String targetSql = "";
+		if (matcher.find()) {
+			targetSql = matcher.group(0);
+		}
+		targetSql = StringUtils.trimWhitespace(targetSql);
+		String[] selectSqlArr = targetSql.split(",");
+		for (String column :
+				selectSqlArr) {
+			/* AS 통일 */
+			if (hasAs) {
+				// AS가 없는 경우 붙여준다.
+				if (column.indexOf("AS") == -1) {
+					String[] words = StringUtils.trimWhitespace(column).split("\\s");
+
+					System.out.println("words  " + words);
+				}
+			}
+			else {
+				// AS가 있는 경우 제거한다.
+				if (column.indexOf("AS") > -1) {
+					column.replace("AS ", "");
+				}
+			}
+		}
+		
+
+		String resultQuery = "";
+		return resultQuery;
+	}
 }
