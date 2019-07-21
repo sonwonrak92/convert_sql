@@ -139,7 +139,7 @@ public class OptionCommaAndSort {
 				if (column.indexOf(" AS ") > -1) {
 					column = column.replaceFirst(" AS ", " ");
 				}
-			}column
+			}
 			resultQuery += column;
 		}
 
